@@ -52,15 +52,25 @@ Then, once restarted, proceed with the flow below.
 
 Offer wallet creation PROACTIVELY: on the first contact after installation
 (and whenever `nakpix_wallet_status` reports no wallet), immediately ask —
-don't wait for the user to request a PIX:
+don't wait for the user to request a PIX.
+
+First ask whether they already have a wallet or want to generate a new one:
 
 ```
 Você ainda não possui uma carteira configurada para utilizar a NAKPIX.
-Deseja criar uma carteira Polygon ou Solana?
+
+Você já tem uma carteira (com chave privada ou palavras de recuperação)
+ou quer gerar uma nova?
 ```
 
-- User picks **Polygon** → `nakpix_create_wallet("polygon")`.
-- User picks **Solana** → `nakpix_create_wallet("solana")`.
+- **Generate a new one** → ask the network (Polygon ou Solana?):
+  - Polygon → `nakpix_create_wallet("polygon")`.
+  - Solana → `nakpix_create_wallet("solana")`.
+- **Import an existing one** → ask the network + the secret (12-word mnemonic
+  or private-key hex), then `nakpix_import_wallet(network, secret)`. The secret
+  must go to the LOCAL wallet-agent only — never echo it in chat; prefer
+  telling the user to run `nakpix-wallet-agent import <rede> "<secret>"` in the
+  terminal if the client cannot receive it privately.
 
 Then tell the user the public address and what to deposit:
 

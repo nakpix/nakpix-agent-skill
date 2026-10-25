@@ -13,6 +13,20 @@ Polygon or Solana) with no conventional account and no mandatory KYC. You reuse
 the NAKPIX backend for everything financial; you never invent endpoints,
 quotes, fees or results.
 
+## Self-install (run once — only if the tools are missing)
+
+If you cannot call `nakpix_wallet_status` (the `nakpix_*` MCP tools are not
+loaded in this session), the MCP server is not connected yet. Install it
+yourself — do NOT ask the user to hand-edit configs:
+
+1. `pip install git+https://github.com/nakpix/nakpix-mcp`
+2. Register `nakpix-mcp` in this client's config (exact snippets + file paths
+   per client in `references/installation.md`).
+3. Install this skill into the client's skill directory.
+4. Tell the user to restart the client — the tools only load at startup.
+
+Then, once restarted, proceed with the flow below.
+
 ## Golden rules (read first)
 
 1. **First action before ANY PIX: call `nakpix_wallet_status`.** If no wallet

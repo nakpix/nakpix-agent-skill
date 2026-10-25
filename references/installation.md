@@ -1,63 +1,109 @@
-# Installation & configuration
+# Self-installation (the agent runs these steps itself)
 
-## Prerequisites
+> Read this when the `nakpix_*` MCP tools are NOT available in the current
+> session. Install everything yourself — do not ask the user to hand-edit
+> config files. After installing, the tools only appear once the client
+> restarts.
 
-- Python 3.10+ (tested on 3.12/3.13).
-- An MCP-compatible agent client (OpenClaw, Hermes, Claude, OpenCode, …).
-- NAKPIX backend URL (provided by NAKPIX; the backend itself is private).
-
-## Install the MCP server
-
-```bash
-git clone https://github.com/nakpix/nakpix-mcp
-cd nakpix-mcp
-python -m venv .venv && source .venv/bin/activate
-pip install -e .
-```
-
-## Configure
+## 1. Install the MCP package
 
 ```bash
-cp .env.example .env
+pip install git+https://github.com/nakpix/nakpix-mcp
+# or, if git+pip fails:
+git clone https://github.com/nakpix/nakpix-mcp /tmp/nakpix-mcp && pip install /tmp/nakpix-mcp
 ```
 
-Minimum required:
+Verify:
 
-| Var | Purpose |
-|---|---|
-| `NAKPIX_BACKEND_URL` | NAKPIX backend relay URL (https) — MUST include the path, e.g. `https://nakpix.xyz/relay` (Polygon) / `https://nakpix.xyz/relay-sol-prod` (Solana). The bare domain returns frontend HTML, not relay JSON. |
-| `NAKPIX_SMTP_HOST` / `_USER` / `_PASS` | SMTP for incident emails (optional but recommended) |
-| `POLYGON_RPC_URL` / `SOLANA_RPC_URL` | balance/deposit RPCs |
+```bash
+which nakpix-mcp && nakpix-mcp --help >/dev/null 2>&1 && echo OK
+```
 
-`NAKPIX_HOME` (default `~/.nakpix`) is where wallets, contacts, settings, the
-SQLite DB and logs live.
+## 2. Detect the client and write the MCP config
 
-## Register with your agent client
+The MCP server is launched by the client at startup, so it must be registered
+in the client's config file. Detect which client is running, then write the
+corresponding file.
 
-The MCP server speaks stdio. See `examples/` for the exact config per client.
-
-Generic (stdio):
+### Claude Desktop
+File: `~/.config/Claude/claude_desktop_config.json` (macOS:
+`~/Library/Application Support/Claude/claude_desktop_config.json`).
+Merge into the existing `mcpServers` object (don't overwrite other servers):
 
 ```json
 { "mcpServers": { "nakpix": {
     "command": "nakpix-mcp",
-    "env": { "NAKPIX_BACKEND_URL": "https://nakpix.xyz" }
+    "env": { "NAKPIX_BACKEND_URL": "https://nakpix.xyz/relay",
+             "NAKPIX_BACKEND_SOLANA": "https://nakpix.xyz/relay-sol-prod" }
 } } }
 ```
 
-## Background services
-
-Scheduled/recurring payments and the 15-minute incident monitor need these to
-run independently of any open chat:
-
+### Claude Code
 ```bash
-nakpix-scheduler
-nakpix-incidents
+claude mcp add nakpix --env NAKPIX_BACKEND_URL=https://nakpix.xyz/relay -- nakpix-mcp
 ```
 
-Or via Docker (see the MCP repo's `docker-compose.yml`).
+### Hermes
+File: `~/.hermes/config.yaml` (under `mcp:` → `servers:`):
 
-## Verify
+```yaml
+mcp:
+  servers:
+    nakpix:
+      command: nakpix-mcp
+      env:
+        NAKPIX_BACKEND_URL: https://nakpix.xyz/relay
+        NAKPIX_BACKEND_SOLANA: https://nakpix.xyz/relay-sol-prod
+```
 
-Ask your agent: "what's my NAKPIX wallet status?" It should answer with the
-wallet list (or that none is configured yet).
+### OpenCode
+File: `opencode.json` (project) or `~/.config/opencode/opencode.json`:
+
+```json
+{ "mcp": { "nakpix": {
+    "type": "local",
+    "command": ["nakpix-mcp"],
+    "environment": { "NAKPIX_BACKEND_URL": "https://nakpix.xyz/relay",
+                     "NAKPIX_BACKEND_SOLANA": "https://nakpix.xyz/relay-sol-prod" }
+} } }
+```
+
+### OpenClaw / generic stdio
+Any `mcpServers` map accepting a stdio server:
+
+```json
+{ "mcpServers": { "nakpix": {
+    "command": "nakpix-mcp",
+    "env": { "NAKPIX_BACKEND_URL": "https://nakpix.xyz/relay",
+             "NAKPIX_BACKEND_SOLANA": "https://nakpix.xyz/relay-sol-prod" }
+} } }
+```
+
+## 3. Install this skill
+
+Copy this skill into the client's skill directory (Hermes `~/.hermes/skills/`,
+Claude its configured skills dir, OpenClaw its skills path, etc.), preserving
+the `SKILL.md` + `references/` + `examples/` structure.
+
+## 4. Tell the user to restart
+
+The MCP tools are loaded at client startup — an already-running session cannot
+hot-load them. End the turn by telling the user:
+
+> "Instalei o servidor MCP da NAKPIX, registrei no seu config e instalei a
+> skill. **Reinicie o cliente/agente** e volte aqui — depois disso eu consigo
+> criar sua carteira e pagar Pix."
+
+## Background services (optional, for scheduled payments + 15-min alerts)
+
+```bash
+nakpix-scheduler &     # executes due schedules
+nakpix-incidents &     # 15-min unresolved monitor + support email
+```
+
+Or via Docker (`docker compose up -d` in the MCP repo).
+
+## Verify (after restart)
+
+Ask the agent: "qual o status da minha carteira NAKPIX?" It should call
+`nakpix_wallet_status` and answer (or offer Polygon/Solana if no wallet yet).

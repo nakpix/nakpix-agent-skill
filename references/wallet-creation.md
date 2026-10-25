@@ -18,6 +18,11 @@ wallet exists, offer Polygon or Solana and create with `nakpix_create_wallet`.
 - Deposit **USDT** (Solana mint `Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB`);
   keep **SOL** for fees.
 
+> **PIX capability:** creating a Solana wallet and querying its balance/deposits
+> works, but **Solana does NOT execute PIX yet** (`nakpix_pay_pix` blocks
+> non-Polygon networks). If the user wants to actually pay a PIX, use Polygon
+> (`nakpix_create_wallet("polygon")`). Do not promise Solana PIX execution.
+
 ## What the agent tells the user
 
 ```
@@ -32,6 +37,10 @@ Seu backup seguro está pronto — abra a interface segura da carteira para
 visualizar e guardar suas palavras de recuperação:
   nakpix-wallet-agent reveal <polygon|solana>
 ```
+
+> When the wallet is Solana, append: "Pagamentos Pix hoje só são executados na
+> Polygon; a carteira Solana permite consultar saldo e depósitos, mas ainda não
+> envia Pix."
 
 The agent NEVER echoes or requests the mnemonic itself. It only points the user
 to the local CLI.

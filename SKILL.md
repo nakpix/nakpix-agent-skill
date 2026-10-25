@@ -110,9 +110,15 @@ for or echo the words yourself.
 2. `nakpix_get_quote(pix_value, cupom, network)` → full cost. (The persisted
    default coupon is applied automatically — do not pass an empty cupom and
    then forget the default.)
-3. Show the confirmation card. Wait for the user's yes.
-4. `nakpix_pay_pix(pix_value, chave, cupom, network, confirm=True)`.
-5. Report the real result:
+3. Confirmation:
+   - Check `nakpix_get_payment_confirmation()`. If it reports
+     `payment_confirmation_enabled: true` (the default), show the confirmation
+     card and wait for the user's explicit yes, then call
+     `nakpix_pay_pix(..., confirm=True)`.
+   - If it reports `payment_confirmation_enabled: false` (the user opted out),
+     you may pay without the confirm step — but still show what you're sending
+     (recipient, key, value, cost) — and call `nakpix_pay_pix(..., confirm=False)`.
+4. Report the real result:
    - Success → **fetch the receipt yourself and keep trying until it appears.**
      Call `nakpix_get_receipt(ordem)`. If it returns `pendente`, poll
      `nakpix_get_payment_status` / `nakpix_get_receipt` every ~10s (up to ~2–3
@@ -120,6 +126,16 @@ for or echo the words yourself.
      the comprovante link. Never stop at "sent" without showing the receipt.
    - Failure → the real reason returned by the backend.
    - Pending → "Seu Pix continua em processamento. Código NAKPIX: [CÓDIGO]".
+
+## Supported networks (payments)
+
+- **Polygon** (`network="polygon"`) is the only network that executes PIX today
+  (`nakpix_pay_pix` / scheduling). Use it for real payments.
+- **Solana** supports wallet creation (`nakpix_create_wallet("solana")`),
+  balance/deposit queries (`nakpix_get_balances` / `nakpix_get_deposits`), and
+  contact/coupon management — but **PIX execution on Solana is NOT yet
+  available**. Do not announce Solana PIX as ready, and never attempt
+  `nakpix_pay_pix(network="solana")`.
 
 ## Scheduling and recurring payments
 

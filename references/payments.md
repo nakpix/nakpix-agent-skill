@@ -4,9 +4,19 @@
 
 1. `nakpix_validate_pix(chave)` — reject malformed keys.
 2. `nakpix_get_quote(pix_value, cupom, network)` — full cost breakdown.
-3. Present the confirmation card. Wait for the user's explicit yes.
-4. `nakpix_pay_pix(pix_value, chave, cupom, network, confirm=True)`.
+3. Confirmation:
+   - Default (`payment_confirmation_enabled = true`): present the confirmation
+     card, wait for the user's explicit yes, then
+     `nakpix_pay_pix(..., confirm=True)`.
+   - Disabled (`payment_confirmation_enabled = false`): the user opted out —
+     still show what you're sending, then
+     `nakpix_pay_pix(..., confirm=False)`.
+4. `nakpix_pay_pix(pix_value, chave, cupom, network, confirm=…)`.
 5. Report the real result.
+
+> **Network:** PIX execution is **Polygon-only** today. Solana supports wallet
+> creation and balance/deposit queries but NOT `nakpix_pay_pix`. Never announce
+> Solana PIX as ready; never call `nakpix_pay_pix(network="solana")`.
 
 ## Confirmation card
 
@@ -22,7 +32,7 @@ Custo total: <usdt_necessario> USDT
 Cotação: <cambio> BRL/USDT
 Fee: <fee_pct>%
 Cupom: <cupom ou —>
-Rede: <polygon|solana>
+Rede: polygon
 
 Deseja enviar?
 ```

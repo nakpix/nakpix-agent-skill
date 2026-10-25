@@ -181,6 +181,11 @@ reconnect. An `incident` notification carries `to` + `subject` + `body` +
 `reminder`, `scheduled_resolved`), acknowledge them with
 `nakpix_ack_notification(notification_id)` after handling.
 
+A `scheduled_result` / `scheduled_resolved` whose `status` is `refunded`
+means the money was **estornado** (refunded) — report it as a refund, never as
+"Pix pago com sucesso". Only `sent`/`done`/`solucionado`/`resolved` mean the PIX
+actually landed.
+
 ## Agent-origin marker
 
 

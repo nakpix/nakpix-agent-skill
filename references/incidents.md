@@ -42,6 +42,18 @@ Email states: `pending` (queued), `sent` (accepted by the email service),
 `instructed` (user told to send manually), `failed` (gave up after retries).
 Never report `sent` before the email service actually accepted it.
 
+The monitor guarantees **exactly one in-flight `incident` notification per
+incident**: it skips enqueueing when one is already pending, and a reported
+`failed` attempt clears the old notification before resetting to `pending`, so
+a retry never queues a duplicate report.
+
+## Refund is not a completed PIX
+
+A `scheduled_result` / `scheduled_resolved` notification whose `status` is
+`refunded` (or `extornado`) means the money was estornado — it is NOT a
+successful PIX. Report it as a refund and never as "Pix pago com sucesso".
+Only `sent`/`done`/`solucionado`/`resolved` mean the PIX actually landed.
+
 ## What the agent tells the user
 
 ```

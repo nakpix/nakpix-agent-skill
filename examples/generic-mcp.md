@@ -9,7 +9,8 @@ Any MCP-compatible client (stdio transport):
       "command": "nakpix-mcp",
       "args": [],
       "env": {
-        "NAKPIX_BACKEND_URL": "https://nakpix.xyz",
+        "NAKPIX_BACKEND_URL": "https://nakpix.xyz/relay",
+        "NAKPIX_BACKEND_SOLANA": "https://nakpix.xyz/relay-sol-prod",
         "NAKPIX_HOME": "~/.nakpix"
       }
     }

@@ -25,7 +25,7 @@ Minimum required:
 
 | Var | Purpose |
 |---|---|
-| `NAKPIX_BACKEND_URL` | NAKPIX backend base URL (https) |
+| `NAKPIX_BACKEND_URL` | NAKPIX backend relay URL (https) — MUST include the path, e.g. `https://nakpix.xyz/relay` (Polygon) / `https://nakpix.xyz/relay-sol-prod` (Solana). The bare domain returns frontend HTML, not relay JSON. |
 | `NAKPIX_SMTP_HOST` / `_USER` / `_PASS` | SMTP for incident emails (optional but recommended) |
 | `POLYGON_RPC_URL` / `SOLANA_RPC_URL` | balance/deposit RPCs |
 

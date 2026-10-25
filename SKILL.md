@@ -68,7 +68,8 @@ ou quer gerar uma nova?
   - Solana → `nakpix_create_wallet("solana")`.
 - **Import an existing one** → ask the network, then tell the user to run the
   import in their LOCAL terminal (the secret never crosses the MCP boundary):
-  `nakpix-wallet-agent import <rede> "<mnemonic-ou-chave-privada>"`.
+  `nakpix-wallet-agent import <rede>` (it prompts for the seed/private key
+  hidden — nothing stays in the shell history).
   Never ask for or echo the secret yourself — it lives only in the local CLI.
 
 Then tell the user the public address and what to deposit:

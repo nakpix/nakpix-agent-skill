@@ -42,12 +42,14 @@ wallet as ready for automated moves if the secure backup is not confirmed.
 ## Import / recover
 
 ```bash
-nakpix-wallet-agent import polygon "<mnemonic-or-private-key>"
-nakpix-wallet-agent export polygon            # encrypted JSON backup
+nakpix-wallet-agent import polygon                # prompts for the seed/key (hidden)
+nakpix-wallet-agent export polygon                # encrypted JSON backup
 nakpix-wallet-agent restore polygon backup.json
 ```
 
-Import from a mnemonic (12 words) or a private key (hex). Importing refuses to
+Import from a mnemonic (12 words) or a private key (hex). The `import`
+command reads the secret interactively (hidden input) so it never lands in the
+shell history — omit the secret from the command line. Importing refuses to
 overwrite an existing wallet. After restoring, verify the public address.
 
 The recovery words are provided directly to the wallet-agent CLI, never to the

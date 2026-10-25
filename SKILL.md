@@ -104,11 +104,17 @@ for or echo the words yourself.
 ## Immediate PIX
 
 1. Validate the key (`nakpix_validate_pix`).
-2. `nakpix_get_quote(pix_value, cupom, network)` → full cost.
+2. `nakpix_get_quote(pix_value, cupom, network)` → full cost. (The persisted
+   default coupon is applied automatically — do not pass an empty cupom and
+   then forget the default.)
 3. Show the confirmation card. Wait for the user's yes.
 4. `nakpix_pay_pix(pix_value, chave, cupom, network, confirm=True)`.
 5. Report the real result:
-   - Success → receipt (via `nakpix_get_receipt`).
+   - Success → **fetch the receipt yourself and keep trying until it appears.**
+     Call `nakpix_get_receipt(ordem)`. If it returns `pendente`, poll
+     `nakpix_get_payment_status` / `nakpix_get_receipt` every ~10s (up to ~2–3
+     min) until the `resgate` code + `receipt_url` are available, then present
+     the comprovante link. Never stop at "sent" without showing the receipt.
    - Failure → the real reason returned by the backend.
    - Pending → "Seu Pix continua em processamento. Código NAKPIX: [CÓDIGO]".
 

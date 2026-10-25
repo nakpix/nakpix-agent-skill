@@ -19,7 +19,7 @@ tools (wallets, balances, contacts, coupons, payments, scheduling, incidents).
 - Scheduled and recurring payments (confirmed once, at creation).
 - Reading bills from image/PDF/QR/text (due dates, expired cobranças).
 - Receipts and real failure reasons.
-- 15-minute unresolved-payment incidents + support email.
+- 15-minute unresolved-payment incidents + agent notification.
 
 ## Structure
 

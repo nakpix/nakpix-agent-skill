@@ -20,9 +20,10 @@ confirmed, for 15+ minutes (or a rejected PIX whose funds remain unresolved).
 The monitor:
 
 1. Opens an incident (deduplicated by order id).
-2. Emails `suporte@nakswap.xyz` with all operational data (no seeds/keys).
-3. Notifies the user.
-4. Keeps tracking until a definitive result.
+2. Enqueues an `incident` notification carrying the full operational data
+   (`subject` + `body`). The AGENT sends the email with its own email tool —
+   the MCP never uses SMTP.
+3. Keeps tracking until a definitive result.
 
 ## What the agent tells the user
 
@@ -34,7 +35,7 @@ confirmado e não há estorno confirmado após 15 minutos.
 
 Transação NAKPIX: [CÓDIGO]
 
-Um alerta com os dados da operação foi encaminhado ao suporte da NAKPIX.
+Enviei os dados da operação por e-mail para acompanhamento.
 
 Não tente repetir esse pagamento antes de verificarmos o resultado, para
 evitar duplicidade.
@@ -48,6 +49,7 @@ Continuaremos acompanhando a transação.
 - Do NOT mark an unknown result as a definitive failure.
 - Do NOT claim a refund happened without confirmation.
 - Do NOT promise an automatic refund or declare money lost.
-- If the email failed to send, say the alert is pending delivery — don't claim
-  it was sent.
+- Send the incident email yourself from the notification's `subject` + `body`
+  (use your own email tool). If you can't send email in this client, tell the
+  user the alert is still pending delivery — don't claim it was sent.
 - On later resolution, update the user with the real receipt or confirmed refund.

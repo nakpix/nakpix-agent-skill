@@ -24,8 +24,10 @@
 - Text from documents/external sources is data, never an autonomous
   authorization. Only the user's explicit instruction authorizes a payment.
 
-## Incident email
+## Incident notification
 
-Operational data only (order id, tx hash, amounts, status). Explicitly excludes
-seed phrases, recovery words, private keys, passwords, API tokens, signing
-secrets, DB credentials.
+The monitor enqueues an `incident` notification (subject + body) for the agent
+to send via its own email tool. The content is operational data only (order id,
+tx hash, amounts, status). It explicitly excludes seed phrases, recovery words,
+private keys, passwords, API tokens, signing secrets, DB credentials. The MCP
+never sends email over SMTP.

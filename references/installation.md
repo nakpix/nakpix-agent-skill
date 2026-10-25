@@ -98,7 +98,7 @@ hot-load them. End the turn by telling the user:
 
 ```bash
 nakpix-scheduler &     # executes due schedules
-nakpix-incidents &     # 15-min unresolved monitor + support email
+nakpix-incidents &     # 15-min unresolved monitor + agent notification
 ```
 
 Or via Docker (`docker compose up -d` in the MCP repo).

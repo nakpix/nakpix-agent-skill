@@ -66,11 +66,10 @@ ou quer gerar uma nova?
 - **Generate a new one** → ask the network (Polygon ou Solana?):
   - Polygon → `nakpix_create_wallet("polygon")`.
   - Solana → `nakpix_create_wallet("solana")`.
-- **Import an existing one** → ask the network + the secret (12-word mnemonic
-  or private-key hex), then `nakpix_import_wallet(network, secret)`. The secret
-  must go to the LOCAL wallet-agent only — never echo it in chat; prefer
-  telling the user to run `nakpix-wallet-agent import <rede> "<secret>"` in the
-  terminal if the client cannot receive it privately.
+- **Import an existing one** → ask the network, then tell the user to run the
+  import in their LOCAL terminal (the secret never crosses the MCP boundary):
+  `nakpix-wallet-agent import <rede> "<mnemonic-ou-chave-privada>"`.
+  Never ask for or echo the secret yourself — it lives only in the local CLI.
 
 Then tell the user the public address and what to deposit:
 

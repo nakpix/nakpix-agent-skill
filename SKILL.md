@@ -130,6 +130,14 @@ refund after 15 minutes (detected by the incident monitor):
 `nakpix_get_notifications` returns pending proactive events (scheduled results,
 incidents). Surface them when you reconnect.
 
+## Agent-origin marker
+
+
+
+
+
+
+
 ## References
 
 See `references/` for detail: installation, wallet creation/backup/recovery,

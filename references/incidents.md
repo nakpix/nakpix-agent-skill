@@ -6,6 +6,8 @@ The MCP persists events in a local queue. When you (re)connect, call
 `nakpix_get_notifications` and surface any pending:
 
 - `scheduled_result` — a scheduled payment ran (success/failure/pending).
+- `scheduled_resolved` — a previously-pending scheduled payment reached a
+  definitive result.
 - `reminder` — a reminder-only schedule fired.
 - `incident` — an unresolved-payment incident was opened.
 
@@ -19,11 +21,26 @@ confirmed, for 15+ minutes (or a rejected PIX whose funds remain unresolved).
 
 The monitor:
 
-1. Opens an incident (deduplicated by order id).
-2. Enqueues an `incident` notification carrying the full operational data
-   (`subject` + `body`). The AGENT sends the email with its own email tool —
-   the MCP never uses SMTP.
+1. Opens an incident (deduplicated by order id) in state `email_state=pending`.
+2. Enqueues an `incident` notification carrying the full operational data:
+   `to` (suporte@nakswap.xyz), `subject`, `body`, `incident_id`, `ordem_id`.
 3. Keeps tracking until a definitive result.
+
+## The agent's job (email delivery)
+
+When you surface an `incident` notification:
+
+1. If you have an email tool, send `body` to `to` with `subject` as the subject,
+   then call `nakpix_report_incident_email(incident_id, "sent")`.
+2. If you do NOT have an email tool, show the user `to` + `subject` + `body` so
+   they can copy and send, then call
+   `nakpix_report_incident_email(incident_id, "instructed")`.
+3. If the send fails, call `nakpix_report_incident_email(incident_id, "failed")`
+   — the monitor re-enqueues it (up to a few attempts).
+
+Email states: `pending` (queued), `sent` (accepted by the email service),
+`instructed` (user told to send manually), `failed` (gave up after retries).
+Never report `sent` before the email service actually accepted it.
 
 ## What the agent tells the user
 
@@ -49,7 +66,8 @@ Continuaremos acompanhando a transação.
 - Do NOT mark an unknown result as a definitive failure.
 - Do NOT claim a refund happened without confirmation.
 - Do NOT promise an automatic refund or declare money lost.
-- Send the incident email yourself from the notification's `subject` + `body`
-  (use your own email tool). If you can't send email in this client, tell the
-  user the alert is still pending delivery — don't claim it was sent.
+- Send the incident email yourself (your own email tool) to the notification's
+  `to` address, then report the outcome with `nakpix_report_incident_email`.
+  If you can't send email, report `instructed` and show the user the report —
+  never report `sent` before the email service accepts it.
 - On later resolution, update the user with the real receipt or confirmed refund.

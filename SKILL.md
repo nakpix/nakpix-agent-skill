@@ -155,9 +155,17 @@ If crypto was sent but the PIX is not confirmed and there's no confirmed
 refund after 15 minutes (detected by the incident monitor):
 
 - Do NOT re-send the transfer. Do NOT mark it a definitive failure.
-- When you surface an `incident` notification (`nakpix_get_notifications`),
-  send the incident email YOURSELF using your own email tool — the notification
-  carries a ready `subject` + `body`. Do NOT rely on any SMTP.
+- When you surface an `incident` notification (`nakpix_get_notifications`), it
+  carries `to` (suporte@nakswap.xyz), `subject`, `body` and `incident_id`:
+  - If you have an email tool, send the report to `to`, then call
+    `nakpix_report_incident_email(incident_id, "sent")`.
+  - If you do NOT have an email tool, show the user the full report (recipient
+    `to`, `subject`, `body`) so they can copy and send it, then call
+    `nakpix_report_incident_email(incident_id, "instructed")`.
+  - If the send fails, call `nakpix_report_incident_email(incident_id, "failed")`
+    — it will be retried.
+- Report "sent" ONLY after the email service accepted it — never merely because
+  you generated the report.
 - Tell the user: "⚠️ Identificamos um problema no seu pagamento Pix. A
   transferência foi identificada mas o Pix ainda não foi confirmado e não há
   estorno confirmado após 15 minutos. Transação NAKPIX: [CÓDIGO]. Não repita o
@@ -166,10 +174,12 @@ refund after 15 minutes (detected by the incident monitor):
 
 ## Notifications
 
-`nakpix_get_notifications` returns pending proactive events (scheduled results,
-incidents). Surface them when you reconnect. An `incident` notification carries
-a `subject` + `body` — send that email with your own email tool (the MCP never
-sends email itself).
+`nakpix_get_notifications` returns pending proactive events. Surface them on
+reconnect. An `incident` notification carries `to` + `subject` + `body` +
+`incident_id` — send the email with your own tool and report the outcome via
+`nakpix_report_incident_email`. For other notifications (`scheduled_result`,
+`reminder`, `scheduled_resolved`), acknowledge them with
+`nakpix_ack_notification(notification_id)` after handling.
 
 ## Agent-origin marker
 

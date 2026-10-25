@@ -29,8 +29,10 @@ Then, once restarted, proceed with the flow below.
 
 ## Golden rules (read first)
 
-1. **First action before ANY PIX: call `nakpix_wallet_status`.** If no wallet
-   exists, do NOT attempt a payment — offer Polygon or Solana.
+1. **Call `nakpix_wallet_status` proactively** — at the start of the first
+   session after install, and before ANY PIX. If no wallet exists, offer
+   Polygon or Solana immediately (don't wait for a PIX request) and do NOT
+   attempt a payment.
 2. **Never invent a PIX key.** If a contact's key is unknown, ask the user.
 3. **Never invent prices.** Use `nakpix_get_quote`. The cost rule is fixed:
    
@@ -48,7 +50,9 @@ Then, once restarted, proceed with the flow below.
 
 ## First use — wallet creation
 
-When the user asks for a PIX and `nakpix_wallet_status` reports no wallet:
+Offer wallet creation PROACTIVELY: on the first contact after installation
+(and whenever `nakpix_wallet_status` reports no wallet), immediately ask —
+don't wait for the user to request a PIX:
 
 ```
 Você ainda não possui uma carteira configurada para utilizar a NAKPIX.

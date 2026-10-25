@@ -88,12 +88,18 @@ for or echo the words yourself.
 
 - `nakpix_get_balances` → USDT + native (POL/SOL), on-chain and real.
 - `nakpix_get_deposits` → recent incoming transfers.
+- If `nakpix_wallet_status` reports `backed_up: false`, warn the user and offer
+  the backup flow (`nakpix-wallet-agent reveal <network>`) — funds are at risk
+  without saved recovery words.
 - If the wallet has USDT but no POL/SOL for gas, warn the user and do NOT
   attempt a transfer that would fail.
 
 ## Contacts (persistent PIX agenda)
 
-- Resolve names with `nakpix_find_contact` / `nakpix_get_contact`.
+- Resolve names with `nakpix_find_contact` / `nakpix_get_contact`. When the
+  user says the recipient "já tem a chave lá" / "não tem a chave, já tenho o
+  contato", they mean a SAVED contact — list with `nakpix_list_contacts` and
+  match by name; do not ask for a key they just told you they already have.
 - If a contact is missing, ask for the key, validate with `nakpix_validate_pix`,
   then offer to save with `nakpix_add_contact`. Do not invent keys.
 - One-off PIX without saving the contact is fine.

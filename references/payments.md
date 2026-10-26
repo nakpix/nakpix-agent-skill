@@ -20,9 +20,10 @@
 
 ## Confirmation card
 
-> Show the **FULL PIX key** (never truncate/ellipsize, e.g. `1dcc8bad-…9960`),
-> and the full value/cost. The user must be able to verify the exact
-> destination before money moves.
+> Show the **complete** value for everything — PIX key, tx hash, address,
+> order ID, resgate code, value/cost. Never truncate, ellipsize or abbreviate
+> (e.g. `1dcc8bad-…9960`). The user must be able to verify the exact
+> destination and transaction before money moves.
 
 ```
 NAKPIX — PAGAMENTO PIX

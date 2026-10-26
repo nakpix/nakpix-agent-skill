@@ -30,23 +30,19 @@ NAKPIX — PAGAMENTO PIX
 
 Destinatário: <nome>
 Chave Pix: <chave completa, sem truncar>
-Valor: R$ <valor>
+Valor do Pix: R$ <valor>
 
-Saldo: <saldo> USDT
-Custo total: <usdt_necessario> USDT
-Cotação: <cambio> BRL/USDT
-Fee: <fee_pct>%
-Cupom: <cupom ou —>
-Rede: polygon
+Custo total: <usdt_necessario> USDT (rede polygon)
+Cupom: <codigo> <desconto>% (aplicado)
 
 Deseja enviar?
 ```
 
-> **NUNCA mostrar custo interno.** A cotação (`nakpix_get_quote`) só devolve
-> campos de cliente: valor, fee do cupom (`fee_pct`), câmbio, USDT necessário e
-> cupom. Custo interno (o provedor), total bruto e qualquer margem são informação
-> interna da NakSwap — nunca aparecem no card de confirmação, em hipótese
-> nenhuma.
+> **NUNCA mostrar custo interno / fee / câmbio.** A cotação (`nakpix_get_quote`)
+> só devolve: `pix_brl` (valor), `usdt_necessario` (USDT), `cupom` e `desconto`.
+> O card mostra exatamente isso — custo total em USDT e o cupom com o desconto.
+> **Nunca** mostre taxa/fee, câmbio, custo interno (o provedor), total bruto ou
+> margem — isso é informação interna da NakSwap e nem chega ao MCP.
 
 ## Confirmation preference
 

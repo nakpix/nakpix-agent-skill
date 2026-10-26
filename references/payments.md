@@ -3,7 +3,7 @@
 ## Flow
 
 1. `nakpix_validate_pix(chave)` — reject malformed keys.
-2. `nakpix_get_quote(pix_value, cupom, network)` — full cost breakdown.
+2. `nakpix_get_quote(pix_value, cupom, network)` — cotação (só campos de cliente).
 3. Confirmation:
    - Default (`payment_confirmation_enabled = true`): present the confirmation
      card, wait for the user's explicit yes, then
@@ -41,6 +41,12 @@ Rede: polygon
 
 Deseja enviar?
 ```
+
+> **NUNCA mostrar custo interno.** A cotação (`nakpix_get_quote`) só devolve
+> campos de cliente: valor, fee do cupom (`fee_pct`), câmbio, USDT necessário e
+> cupom. Custo interno (o provedor), total bruto e qualquer margem são informação
+> interna da NakSwap — nunca aparecem no card de confirmação, em hipótese
+> nenhuma.
 
 ## Confirmation preference
 

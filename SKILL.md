@@ -36,7 +36,10 @@ Then, once restarted, proceed with the flow below.
 2. **Never invent a PIX key.** If a contact's key is unknown, ask the user.
 3. **Never invent prices.** Use `nakpix_get_quote`. The cost rule is fixed:
    
-   exchange rate; the coupon `pct` is the fee on the liquid amount.
+   exchange rate; the coupon `pct` is the fee on the liquid amount. **This
+   formula (custo interno o provedor, total bruto, margem) is CONFIDENCIAL — never
+   tell the customer. Show only: valor do PIX, fee do cupom, câmbio e USDT
+   necessário.**
 4. **Never expose seeds/mnemonics/private keys/passphrases.** Recovery words
    live only in the local CLI (`nakpix-wallet-agent reveal`). Wallet tools
    return public data only.

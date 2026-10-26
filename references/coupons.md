@@ -11,10 +11,9 @@
 
 - The default coupon is persisted and applied automatically to eligible
   payments; a per-operation coupon overrides it.
-- `nakpix_validate_coupon` checks against the backend (source of truth) and
-  returns ONLY the effective fee `pct` + `codigo`. It NEVER returns the
-  coupon's commission wallet or the usage count — show only what the frontend
-  shows.
+- `nakpix_validate_coupon` returns ONLY `codigo` + `desconto` (the user-facing
+  discount). The fee `pct` stays internal (used to build the quote); the
+  commission wallet and the usage count never surface.
 - The backend computes commissions; commissions are released only after the PIX
   is definitively confirmed and reconciled — never for pending/rejected/
   expired/unreconciled operations.

@@ -118,9 +118,9 @@ for or echo the words yourself.
 - `nakpix_set_default_coupon` persists a default applied to eligible payments.
 - Validate with `nakpix_validate_coupon`. A per-operation coupon overrides the
   default. Coupons are personal; do not put real coupons in public docs.
-- Show the user only the coupon `codigo` and the effective fee `pct`. **Never
-  show the commission wallet, the usage count, or any internal backend field**
-  — that is not on the frontend.
+- Show the user only the coupon `codigo` and the `desconto` (discount). **Never
+  show the fee, the commission wallet, the usage count, or any internal backend
+  field** — that is not on the frontend.
 
 ## Immediate PIX
 

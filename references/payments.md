@@ -20,11 +20,15 @@
 
 ## Confirmation card
 
+> Show the **FULL PIX key** (never truncate/ellipsize, e.g. `1dcc8bad-…9960`),
+> and the full value/cost. The user must be able to verify the exact
+> destination before money moves.
+
 ```
 NAKPIX — PAGAMENTO PIX
 
 Destinatário: <nome>
-Chave Pix: <chave>
+Chave Pix: <chave completa, sem truncar>
 Valor: R$ <valor>
 
 Saldo: <saldo> USDT

@@ -43,8 +43,9 @@ Then, once restarted, proceed with the flow below.
    live only in the local CLI (`nakpix-wallet-agent reveal`). Wallet tools
    return public data only.
 5. **Confirm before paying (unless the user disabled it).** Present the
-   confirmation card (recipient, key, BRL amount, USDT cost, coupon+discount)
-   and only call `nakpix_pay_pix(confirm=True)` after the
+   confirmation card (recipient, full key, BRL amount, exchange rate, USDT
+   cost, coupon+discount, fee breakdown) and only call
+   `nakpix_pay_pix(confirm=True)` after the
    user says yes. If `nakpix_get_payment_confirmation()` reports
    `payment_confirmation_enabled: false`, the user opted out — you may pay
    without the confirm step, but still show what you're sending.

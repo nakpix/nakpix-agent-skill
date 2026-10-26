@@ -26,23 +26,27 @@
 > destination and transaction before money moves.
 
 ```
-NAKPIX — PAGAMENTO PIX
+PIX para <nome>
 
-Destinatário: <nome>
-Chave Pix: <chave completa, sem truncar>
-Valor do Pix: R$ <valor>
+• Chave: <chave completa, sem truncar>
+• Valor PIX: R$ <pix_brl, 2 casas>
+• Câmbio: 1 USDT = R$ <cambio, 4 casas>
+• Custo em USDT: <usdt_necessario, 4 casas>
+• Cupom aplicado: <codigo> (<desconto>% desconto)          ← omitir se sem cupom
+• Taxa NAKPIX: <fee_base>% - <desconto>% (cupom <codigo> <desconto>%) = <fee_final>%
+  (sem cupom, mostrar só: Taxa NAKPIX: <fee_base>%)
+• Rede: Polygon (saldo USDT: <saldo> ✓)
 
-Custo total: <usdt_necessario> USDT (rede polygon)
-Cupom: <codigo> <desconto>% (aplicado)
-
-Deseja enviar?
+Confirma o pagamento? Digo sim que eu executo.
 ```
 
-> **NUNCA mostrar custo interno / fee / câmbio.** A cotação (`nakpix_get_quote`)
-> só devolve: `pix_brl` (valor), `usdt_necessario` (USDT), `cupom` e `desconto`.
-> O card mostra exatamente isso — custo total em USDT e o cupom com o desconto.
-> **Nunca** mostre taxa/fee, câmbio, custo interno (o provedor), total bruto ou
-> margem — isso é informação interna da NakSwap e nem chega ao MCP.
+> A cotação (`nakpix_get_quote`) devolve os campos de cliente: `pix_brl`,
+> `usdt_necessario`, `cambio` (1 USDT = R$ X), `cupom`, `desconto`, `fee_base`
+> e `fee_final`. O card mostra exatamente isso — câmbio, custo em USDT, cupom
+> com o desconto e a conta da taxa (base − desconto = final).
+> **Nunca** mostre custo interno (o provedor), total bruto ou margem — isso é
+> informação interna da NakSwap e nem chega ao MCP. Formato dos números em
+> pt-BR (vírgula decimal): BRL com 2 casas, USDT e câmbio com 4 casas.
 
 ## Confirmation preference
 

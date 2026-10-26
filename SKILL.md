@@ -145,6 +145,9 @@ for or echo the words yourself.
      `nakpix_get_payment_status` / `nakpix_get_receipt` every ~10s (up to ~2–3
      min) until the `resgate` code + `receipt_url` are available, then present
      the comprovante link. Never stop at "sent" without showing the receipt.
+     The comprovante link is `https://nakpix.xyz/relay/comprovante?code=<NAK-CODE>`
+     — emit ONLY the code, never append txid/name/valor params (the backend
+     fills the beneficiary, the PIX E2E and the amount from its own state).
    - Failure → the real reason returned by the backend.
    - Pending → "Seu Pix continua em processamento. Código NAKPIX: [CÓDIGO]".
 

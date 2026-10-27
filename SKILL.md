@@ -228,11 +228,8 @@ actually landed.
 
 ## Agent-origin marker
 
-
-
-
-
-
+PIX sent through an agent (MCP) are automatically tagged with an agent-origin
+marker on order creation. No agent action needed.
 
 ## References
 

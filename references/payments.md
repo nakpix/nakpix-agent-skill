@@ -44,8 +44,8 @@ Confirma o pagamento? Digo sim que eu executo.
 > `usdt_necessario`, `cambio` (1 USDT = R$ X), `cupom`, `desconto`, `fee_base`
 > e `fee_final`. O card mostra exatamente isso — câmbio, custo em USDT, cupom
 > com o desconto e a conta da taxa (base − desconto = final).
-> **Nunca** mostre custo interno (o provedor), total bruto ou margem — isso é
-> informação interna da NakSwap e nem chega ao MCP. Formato dos números em
+> **Nunca** mostre custo interno, total bruto ou margem — isso é
+> informação interna e nem chega ao MCP. Formato dos números em
 > pt-BR (vírgula decimal): BRL com 2 casas, USDT e câmbio com 4 casas.
 
 ## Confirmation preference

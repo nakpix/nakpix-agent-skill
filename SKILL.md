@@ -37,7 +37,7 @@ Then, once restarted, proceed with the flow below.
 3. **Never invent prices.** Use `nakpix_get_quote`. O custo é calculado pelo
    SERVER (fonte de verdade) — o MCP só pergunta "pix + cupom" e devolve o que
    o server responde (valor, fee do cupom, câmbio, USDT). **Nunca mostre custo
-   interno (o provedor), total bruto ou margem — isso é CONFIDENCIAL e nem chega
+   interno, total bruto ou margem — isso é CONFIDENCIAL e nem chega
    ao MCP.**
 4. **Never expose seeds/mnemonics/private keys/passphrases.** Recovery words
    live only in the local CLI (`nakpix-wallet-agent reveal`). Wallet tools

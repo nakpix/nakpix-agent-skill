@@ -63,3 +63,11 @@ from what the provider pays.
 with `BOL*` prefix, `tx_hash`, `usdt`, `resgate`…) plus a `boleto` block:
 `{valor, vencimento, tipo, linha}` (linha = the ready-to-pay line, with
 the amount injected when the original was zero-amount).
+## Scheduling (nakpix_schedule_boleto)
+
+One-shot boleto scheduling, defaulting to the boleto's own due date
+(10:00 São Paulo). At EXECUTION time the line is re-validated: expired
+by then = clean refusal (`boleto_recusado: true` with the reason) — the
+scheduler never pays a late boleto. Zero-amount lines take `valor_brl`
+at scheduling time; the amount is injected into the line (with the
+recalculated check digit) only when the payment actually executes.

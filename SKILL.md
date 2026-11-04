@@ -194,6 +194,10 @@ a PIX key; PIX keys are never 47/48 digits):
    FROM THE LINE, never invented by the agent.
 3. Pay with `nakpix_pay_boleto(linha, valor_brl?, cupom?, confirm=True)` —
    ONLY after the user approves amount, due date and total cost.
+4. Schedule with `nakpix_schedule_boleto(nome, linha, valor_brl?,
+   quando_ts?, cupom?)` — one-shot, defaults to the boleto's due date
+   (10:00 São Paulo). At execution time the line is RE-VALIDATED: if it is
+   expired by then, the payment is cleanly refused (never a late payment).
 
 Rules enforced by the tools (same as the production frontend):
 
@@ -213,6 +217,11 @@ Rules enforced by the tools (same as the production frontend):
   in public channels beyond what the user needs to confirm the payment.
 - Orders come back with a `BOL*` prefix and a `boleto` block in the
   response (valor, vencimento, tipo, linha pronta).
+- **Scheduling a boleto** (`nakpix_schedule_boleto`): one-shot to the due
+  date by default. The line is re-validated AT EXECUTION — expired by then
+  = clean refusal with the reason (never a late payment). Zero-amount
+  lines need `valor_brl` at scheduling; it is injected into the line when
+  the payment executes.
 
 ## Tracking and receipts
 

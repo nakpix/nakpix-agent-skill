@@ -120,7 +120,8 @@ for or echo the words yourself.
 
 ## Coupons
 
-- `nakpix_set_default_coupon` persists a default applied to eligible payments.
+- `nakpix_set_default_coupon` persists a default applied to eligible payments;
+  `nakpix_remove_default_coupon` clears it, `nakpix_get_default_coupon` reads it.
 - Validate with `nakpix_validate_coupon`. A per-operation coupon overrides the
   default. Coupons are personal; do not put real coupons in public docs.
 - Show the user only the coupon `codigo` and the `desconto` (discount). **Never

@@ -115,6 +115,8 @@ for or echo the words yourself.
 - If a contact is missing, ask for the key, validate with `nakpix_validate_pix`,
   then offer to save with `nakpix_add_contact`. Do not invent keys.
 - One-off PIX without saving the contact is fine.
+- Contacts change with `nakpix_update_contact` (new key) /
+  `nakpix_delete_contact` (removal) — always confirm before deleting.
 
 ## Coupons
 
@@ -168,6 +170,8 @@ for or echo the words yourself.
 - **Confirm at creation time.** The original confirmation covers all occurrences
   within the accepted parameters. Never ask again on the execution date.
 - Manage with `nakpix_list/get/update/cancel/pause/resume_scheduled_payment`.
+- Past runs (with order ids and results per occurrence) come from
+  `nakpix_get_schedule_history`.
 - Offer a reminder-only mode if the user prefers to be reminded rather than
   auto-pay.
 

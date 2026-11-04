@@ -196,8 +196,10 @@ a PIX key; PIX keys are never 47/48 digits):
    ONLY after the user approves amount, due date and total cost.
 4. Schedule with `nakpix_schedule_boleto(nome, linha, valor_brl?,
    quando_ts?, cupom?)` — one-shot, defaults to the boleto's due date
-   (10:00 São Paulo). At execution time the line is RE-VALIDATED: if it is
-   expired by then, the payment is cleanly refused (never a late payment).
+   (10:00 São Paulo). Scheduling AFTER the due date is REFUSED at creation
+   (the tool reads the due date from the line). At execution time the line
+   is RE-VALIDATED: if it is expired by then, the payment is cleanly
+   refused (never a late payment).
 
 Rules enforced by the tools (same as the production frontend):
 

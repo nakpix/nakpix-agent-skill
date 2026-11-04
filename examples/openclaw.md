@@ -8,7 +8,7 @@ mcp:
   nakpix:
     command: nakpix-mcp
     env:
-      NAKPIX_BACKEND_URL: https://nakpix.xyz
+      NAKPIX_BACKEND_URL: https://nakpix.xyz/relay
       NAKPIX_HOME: /home/<user>/.nakpix
 ```
 
@@ -17,7 +17,7 @@ Or via the generic JSON form OpenClaw accepts:
 ```json
 { "mcpServers": { "nakpix": {
     "command": "nakpix-mcp",
-    "env": { "NAKPIX_BACKEND_URL": "https://nakpix.xyz" }
+    "env": { "NAKPIX_BACKEND_URL": "https://nakpix.xyz/relay" }
 } } }
 ```
 

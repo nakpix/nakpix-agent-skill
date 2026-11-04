@@ -8,7 +8,7 @@ mcp:
     nakpix:
       command: nakpix-mcp
       env:
-        NAKPIX_BACKEND_URL: https://nakpix.xyz
+        NAKPIX_BACKEND_URL: https://nakpix.xyz/relay
 ```
 
 The NAKPIX skill (`SKILL.md`) can be installed as a Hermes skill so the agent

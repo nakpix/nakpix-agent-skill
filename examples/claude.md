@@ -9,7 +9,7 @@ Claude Code / `claude mcp add`):
     "nakpix": {
       "command": "nakpix-mcp",
       "env": {
-        "NAKPIX_BACKEND_URL": "https://nakpix.xyz"
+        "NAKPIX_BACKEND_URL": "https://nakpix.xyz/relay"
       }
     }
   }

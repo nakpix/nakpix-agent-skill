@@ -10,7 +10,7 @@ OpenCode reads MCP servers from `opencode.json` (project or global):
       "type": "local",
       "command": ["nakpix-mcp"],
       "environment": {
-        "NAKPIX_BACKEND_URL": "https://nakpix.xyz"
+        "NAKPIX_BACKEND_URL": "https://nakpix.xyz/relay"
       }
     }
   }

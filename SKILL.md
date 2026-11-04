@@ -183,6 +183,37 @@ When the user sends a PIX bill (photo, PDF, QR code, or copy-paste text):
    new PIX. Do not confuse due date with issue date; do not turn non-PIX boleto
    into a fake PIX.
 
+## Paying boletos (linha digitável)
+
+When the user sends a BOLETO (47/48-digit linha digitável — never treat it as
+a PIX key; PIX keys are never 47/48 digits):
+
+1. Inspect first with `nakpix_parse_boleto(linha)` — read-only: type
+   (bancário 47d / convênio 48d), amount, due date, segment.
+2. Quote with `nakpix_quote_boleto(linha, valor_brl?)` — the amount comes
+   FROM THE LINE, never invented by the agent.
+3. Pay with `nakpix_pay_boleto(linha, valor_brl?, cupom?, confirm=True)` —
+   ONLY after the user approves amount, due date and total cost.
+
+Rules enforced by the tools (same as the production frontend):
+
+- The payment amount is read from the line: bancário = last 10 digits;
+  convênio = campo1[5:11]+campo2[0:4] (NEVER campo 4).
+- **Expired boleto (bancário) is REFUSED** — "only boletos within their
+  validity period are accepted". Due date comes from the fator de
+  vencimento; factor 0000 = no due date (payable anytime).
+- Convênio (48d) has NO universal due date — never blocked on expiry.
+- **Zero-amount lines are REAL** (some banks ship value 0000000000): the
+  user must state the boleto amount; it is injected into the line (with a
+  recalculated check digit) before the order is created. Refuse to pay a
+  zero-amount line without an explicit amount.
+- Late fees/juros are NOT in the line — the bank computes them at payment
+  time. You can detect "expired", never the penalty amount.
+- The boleto travels encrypted in the payment memo — never quote the line
+  in public channels beyond what the user needs to confirm the payment.
+- Orders come back with a `BOL*` prefix and a `boleto` block in the
+  response (valor, vencimento, tipo, linha pronta).
+
 ## Tracking and receipts
 
 - `nakpix_get_payment_status` / `nakpix_get_transaction_details` to poll.
@@ -235,7 +266,8 @@ marker on order creation. No agent action needed.
 
 See `references/` for detail: installation, wallet creation/backup/recovery,
 deposits, payments, contacts, coupons, scheduling, recurring payments,
-document reading, notifications, incidents, security, troubleshooting.
+document reading, boleto rules (linha digitável), notifications, incidents,
+security, troubleshooting.
 
 See `examples/` for client-specific MCP configuration (OpenClaw, Hermes,
 OpenCode, Claude, generic MCP).
